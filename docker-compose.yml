@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: glpi
+      MYSQL_USER: glpiuser
+      MYSQL_PASSWORD: your_password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  glpi-server:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443" 
+    volumes:
+      - glpi_data:/var/www/glpi/files
+    environment:
+      DB_HOST: db
+      DB_DATABASE: glpi
+      DB_USERNAME: glpiuser
+      DB_PASSWORD: your_password
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  glpi_data:
