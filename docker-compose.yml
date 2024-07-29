@@ -8,16 +8,12 @@ services:
       MYSQL_DATABASE: glpi
       MYSQL_USER: glpiuser
       MYSQL_PASSWORD: your_password
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   glpi-server:
     build: .
     ports:
       - "80:80"
       - "443:443" 
-    volumes:
-      - glpi_data:/var/www/glpi/files
     environment:
       DB_HOST: db
       DB_DATABASE: glpi
@@ -26,6 +22,3 @@ services:
     depends_on:
       - db
 
-volumes:
-  db_data:
-  glpi_data:
